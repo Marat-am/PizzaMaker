@@ -1,6 +1,6 @@
 package com.example.pizzamakerservice.repository;
 
-import com.example.pizzamakerservice.model.ProductType;
+import com.example.pizzamakerservice.model.Ingredient;
 import com.example.pizzamakerservice.util.SQLConnector;
 
 import java.sql.Connection;
@@ -10,24 +10,25 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ProductTypeRepository {
+public class IngredientRepository {
 
-    public ProductType read(int id) {
+    public Ingredient read(int id) {
+
         Connection connection = SQLConnector.getConnection();
         PreparedStatement pstmt = null;
         ResultSet resultSet = null;
         try {
-            pstmt = connection.prepareStatement("SELECT * FROM `product_type` WHERE id=?");
+            pstmt = connection.prepareStatement("SELECT * FROM `ingredient` WHERE id=?");
             pstmt.setInt(1, id);
             resultSet = pstmt.executeQuery();
 
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
-        ProductType productType=null;
+        Ingredient ingredient=null;
         try{
             while (resultSet.next()){
-                productType=mapper(resultSet);
+                ingredient=mapper(resultSet);
             }
         }catch (SQLException ex){
             ex.printStackTrace();
@@ -39,25 +40,27 @@ public class ProductTypeRepository {
         }catch (SQLException sqlException){
             sqlException.printStackTrace();
         }
-        return productType;
+        return ingredient;
     }
 
-    public ProductType read(String name) {
+
+    public Ingredient read(String name) {
+
         Connection connection = SQLConnector.getConnection();
         PreparedStatement pstmt = null;
         ResultSet resultSet = null;
         try {
-            pstmt = connection.prepareStatement("SELECT * FROM `product_type` WHERE name=?");
+            pstmt = connection.prepareStatement("SELECT * FROM `ingredient` WHERE name=?");
             pstmt.setString(1,name);
             resultSet = pstmt.executeQuery();
 
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
-        ProductType productType=null;
+        Ingredient ingredient=null;
         try{
             while (resultSet.next()){
-                productType=mapper(resultSet);
+                ingredient=mapper(resultSet);
             }
         }catch (SQLException ex){
             ex.printStackTrace();
@@ -69,22 +72,22 @@ public class ProductTypeRepository {
         }catch (SQLException sqlException){
             sqlException.printStackTrace();
         }
-        return productType;
+        return ingredient;
     }
 
-    public List<ProductType> readAll() {
+    public List<Ingredient> readAll() {
         Connection connection = SQLConnector.getConnection();
         PreparedStatement pstmt = null;
         ResultSet resultSet = null;
 
         try {
-            pstmt = connection.prepareStatement("SELECT * from `product_type`");
+            pstmt = connection.prepareStatement("SELECT * from `ingredient`");
             resultSet = pstmt.executeQuery();
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
 
-        List<ProductType> data = mapperList(resultSet);
+        List<Ingredient> data = mapperList(resultSet);
 
 
         try {
@@ -98,36 +101,29 @@ public class ProductTypeRepository {
         return data;
     }
 
-    public void create(ProductType productType) {
+    public void create(Ingredient ingredient) {
         Connection connection = SQLConnector.getConnection();
 
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO `product_type` values (0,?)");
-
-            preparedStatement.setString(1, productType.getName());
-
-
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO `ingredient` values (0,?)");
+            preparedStatement.setString(1, ingredient.getName());
             int i = preparedStatement.executeUpdate();
-
             preparedStatement.close();
             connection.close();
 
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
-
     }
 
-    public ProductType update(int id, ProductType productType) {
+    public Ingredient update(Ingredient ingredient) {
 
         Connection connection = SQLConnector.getConnection();
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE `product_type` SET name = ? WHERE id = ?");
-            preparedStatement.setString(1,productType.getName());
-            preparedStatement.setInt(2,productType.getId());
-
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE `ingredient` SET name = ? WHERE id = ?");
+            preparedStatement.setString(1,ingredient.getName());
+            preparedStatement.setInt(2,ingredient.getId());
             int i = preparedStatement.executeUpdate();
-
             preparedStatement.close();
 
         } catch (SQLException exception) {
@@ -139,14 +135,13 @@ public class ProductTypeRepository {
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
-
-        return productType;
+        return ingredient;
     }
 
     public void delete(int id) {
         Connection connection = SQLConnector.getConnection();
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM `product_type` where id=?");
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM `ingredient` where id=?");
             preparedStatement.setInt(1, id);
             int i = preparedStatement.executeUpdate();
 
@@ -157,8 +152,8 @@ public class ProductTypeRepository {
         }
     }
 
-    private static List<ProductType> mapperList(ResultSet resultSet) {
-        List<ProductType> data = new LinkedList<>();
+    private static List<Ingredient> mapperList(ResultSet resultSet) {
+        List<Ingredient> data = new LinkedList<>();
         try {
             while (resultSet.next()) {
                 data.add(mapper(resultSet));
@@ -169,10 +164,10 @@ public class ProductTypeRepository {
         return data;
     }
 
-    private static ProductType mapper(ResultSet resultSet) throws SQLException {
-        ProductType productType = new ProductType();
-        productType.setId(resultSet.getInt("id"));
-        productType.setName(resultSet.getString("name"));
-        return productType;
+    private static Ingredient mapper(ResultSet resultSet) throws SQLException {
+        Ingredient ingredient = new Ingredient();
+        ingredient.setId(resultSet.getInt("id"));
+        ingredient.setName(resultSet.getString("name"));
+        return ingredient;
     }
 }

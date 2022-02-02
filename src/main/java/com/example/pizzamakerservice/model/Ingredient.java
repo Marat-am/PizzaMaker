@@ -6,16 +6,12 @@ import lombok.*;
 @Setter
 @ToString
 @EqualsAndHashCode
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 
-
-public class Table extends Order {
-
+public class Ingredient {
     private int id;
-    private int number;
-    private int seats;
-    private boolean busy;
+    private String name;
 
 
 

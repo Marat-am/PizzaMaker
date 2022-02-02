@@ -2,6 +2,7 @@ package com.example.pizzamakerservice.model;
 
 import lombok.*;
 
+
 @Getter
 @Setter
 @ToString
@@ -9,15 +10,8 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 
-
-public class Table extends Order {
-
+public class ProductType {
     private int id;
-    private int number;
-    private int seats;
-    private boolean busy;
-
-
+    private String name;
 
 }
-
