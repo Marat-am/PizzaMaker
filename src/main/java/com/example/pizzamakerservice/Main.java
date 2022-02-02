@@ -9,12 +9,8 @@ public class Main {
     public static void main(String[] args) {
         OrderService orderService = new OrderServiceImpl();
 
-//        System.out.println(new Gson().toJson(orderService.read(1)));
         System.out.println(new Gson().toJson(orderService.readAll()));
 
-//
-//        OrderRepository orderRepository = new OrderRepository();
-//        ProductService productService = new ProductServiceImpl();
 
     }
 
